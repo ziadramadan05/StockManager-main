@@ -1,12 +1,9 @@
-
-
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
-import com.opencsv.CSVWriter;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -22,8 +19,6 @@ import javafx.scene.control.TextField;
 
 import com.opencsv.CSVWriter;
 import java.io.FileWriter;
-
-
 import java.io.IOException;
 
 public class StockCsvReader implements Initializable {
@@ -43,6 +38,15 @@ public class StockCsvReader implements Initializable {
     private TableColumn<Stocks, String> StockColumn;
     @FXML
     private TableColumn<Stocks, Integer> Stocksnumber;
+
+    @FXML
+    private TableView<Stocks> sellTable;
+    @FXML
+    private TableColumn<Stocks, String> mystocksColumn;
+    @FXML
+    private TableColumn<Stocks, Integer> quantityColumn;
+    @FXML
+    private TableColumn<Stocks, Button> sellColumn;
 
     ArrayList<Stocks> stocksList = new ArrayList<>();
 
@@ -113,8 +117,24 @@ public class StockCsvReader implements Initializable {
                                     System.out.println("Buying " + purchasedQuantity + " of " + stock.getStockName());
                                     System.out.println("Remaining stock of " + stock.getStockName() + ": " + remainingStock);
                                     stock.setStockNumber(remainingStock);
-                                    writeDataToFile(stocksList);
+
+                                    // Add the bought quantity to the sell table
+                                    boolean found = false;
+                                    for (Stocks sellStock : sellTable.getItems()) {
+                                        if (sellStock.getStockName().equals(stock.getStockName())) {
+                                            int currentQuantity = sellStock.getQuantityToSell();
+                                            sellStock.setQuantityToSell(currentQuantity + purchasedQuantity);
+                                            found = true;
+                                            break;
+                                        }
+                                    }
+                                    if (!found) {
+                                        Stocks newSellStock = new Stocks(stock.getStockName(), 0, purchasedQuantity, 0, null, null);
+                                        sellTable.getItems().add(newSellStock);
+                                    }
+
                                     tableView.refresh();
+                                    sellTable.refresh();
                                 } else {
                                     System.out.println("Not enough stock available.");
                                 }
@@ -126,6 +146,8 @@ public class StockCsvReader implements Initializable {
                         }
                     }
                 });
+
+
             }
 
             @Override
@@ -139,10 +161,65 @@ public class StockCsvReader implements Initializable {
             }
         });
 
-        readDataFromFile();
+        initializeSellTable();
     }
 
-    
+        // Initialize sell table
+        private void initializeSellTable() {
+        mystocksColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStockName()));
+        quantityColumn.setCellValueFactory(cellData -> new SimpleIntegerProperty(cellData.getValue().getQuantityToSell()).asObject());
+
+        sellColumn.setCellFactory(column -> new TableCell<Stocks, Button>() {
+            final Button sellButton = new Button("Sell");
+
+            {
+                sellButton.setOnAction(event -> {
+                    Stocks stock = getTableView().getItems().get(getIndex());
+                    TextField quantityField = quantityFieldsMap.get(stock);
+                    if (quantityField != null) {
+                        String quantity = quantityField.getText();
+                        if (!quantity.isEmpty()) {
+                            try {
+                                int sellQuantity = Integer.parseInt(quantity);
+                                if (sellQuantity <= stock.getAvailableStock()) {
+                                    System.out.println("Selling " + sellQuantity + " of " + stock.getStockName());
+
+                                    // Update the quantity of the sold stock in the sell table
+                                    for (Stocks sellStock : sellTable.getItems()) {
+                                        if (sellStock.getStockName().equals(stock.getStockName())) {
+                                            sellStock.setQuantityToSell(sellQuantity);
+                                            break;
+                                        }
+                                    }
+
+                                    // Implement the logic to sell stocks
+                                } else {
+                                    System.out.println("Not enough stock available for selling.");
+                                }
+                            } catch (NumberFormatException e) {
+                                System.out.println("Invalid input. Please enter a valid number.");
+                            }
+                        } else {
+                            System.out.println("Please enter a quantity to sell.");
+                        }
+                    }
+                });
+
+            }
+
+            @Override
+            protected void updateItem(Button item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(sellButton);
+                }
+            }
+        });
+
+        readDataFromFile();
+    }
 
     public void writeDataToFile(ArrayList<Stocks> stocksList) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("C://Users//Ziiad//Downloads//testfile.csv", false))) {
