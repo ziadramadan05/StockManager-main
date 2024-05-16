@@ -1,0 +1,129 @@
+.white-bg {
+    -fx-background-color: #fff;
+}
+
+.radius {
+    -fx-background-radius: 6px;
+}
+
+.textfield-1 {
+    -fx-border-color: #000;
+    -fx-border-width: .3px;
+    -fx-font-family: Tahoma;
+}
+
+.textfield-1:focused {
+    -fx-border-color: linear-gradient(to bottom right, #188ba7, #306090);
+    -fx-border-width: 1px;
+}
+
+.textfield-2 {
+    -fx-border-color: #000;
+    -fx-border-width: .3px;
+    -fx-font-family: Tahoma;
+}
+
+.textfield-2:focused {
+    -fx-border-color: linear-gradient(to bottom right, #a413a1, #64308e);
+    -fx-border-width: 1px;
+}
+
+.textfield-3 {
+    -fx-border-color: #000;
+    -fx-border-width: .3px;
+    -fx-font-family: Tahoma;
+}
+
+.textfield-3:focused {
+    -fx-border-color: linear-gradient(to bottom right, #a31336, #861d2a);
+    -fx-border-width: 1px;
+}
+
+.btn-1 {
+    -fx-background-color: linear-gradient(to bottom right, #188ba7, #306090);
+    -fx-cursor: hand;
+    -fx-text-fill: #fff;
+    -fx-font-size: 14px;
+    -fx-font-family: Arial;
+}
+
+.btn-1:hover {
+    -fx-background-color: linear-gradient(to bottom right, #11a7c9, #2765a4);
+}
+
+.btn-2 {
+    -fx-background-color: #EF5484;
+    -fx-cursor: hand;
+    -fx-text-fill: #fff;
+    -fx-font-size: 14px;
+    -fx-font-family: Arial;
+}
+
+.btn-2:hover {
+    -fx-background-color: linear-gradient(to bottom right, #EF5484, #ffffff);
+}
+
+.btn-3 {
+    -fx-background-color: #7fb9ce;
+    -fx-text-fill: #ffff00;
+    -fx-font-size: 14px;
+    -fx-font-family: Arial;
+}
+
+.btn-3:hover {
+    -fx-background-color: #7fb9ce;
+}
+
+.side_anchorpane {
+    -fx-background-color: #074874;
+   
+
+}
+
+.border-top {
+    -fx-border-color: #000000;
+    -fx-border-width: .5px 0 .9px 0;
+}
+
+
+.nav-btn-1 {
+    -fx-background-color: linear-gradient(#188ba7, #306090);
+    -fx-text-fill: #fff;
+    -fx-font-family: Arial;
+    -fx-cursor: hand;
+    -fx-font-size: 14px;
+    -fx-alignment: CENTER;
+    
+}
+
+.nav-btn-12 {
+    -fx-background-color: transparent;
+    -fx-border-color: #fff;
+    -fx-border-width: .5px;
+    -fx-text-fill: #fff;
+    -fx-font-family: Tahoma;
+    -fx-cursor: hand;
+    -fx-font-size: 16px;
+    -fx-alignment: CENTER;
+    -fx-border-radius: 5px;
+    -fx-background-radius: 5px;
+}
+
+.nav-btn-12:hover {
+    -fx-background-color: #4992b1;
+    -fx-text-fill: #000;
+}
+
+
+ .userscreentop {
+ 
+    -fx-background-color:#074874;
+    
+    -fx-font-family: Arial;
+    -fx-cursor: hand;
+  
+    -fx-alignment: CENTER;
+ }
+
+
+      
